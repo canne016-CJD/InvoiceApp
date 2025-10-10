@@ -9,7 +9,7 @@ import { Textarea } from "./components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./components/ui/select";
 import { Toaster } from "./components/ui/sonner";
 import { FileText, Download, Printer, Mail, Settings, Building, Calendar, DollarSign, Plus, Trash2, Eye, User, ShoppingCart, StickyNote, ArrowLeft } from "lucide-react";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 
 export interface AdditionalCharge {
   id: string;
