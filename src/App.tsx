@@ -321,13 +321,13 @@ export default function App() {
                       </div>
                       <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-2">
-                          <Label htmlFor={`mobile-charge-type-${charge.id}`}>Type</Label>
-                          <Select
-                            value={charge.type}
-                            onValueChange={(value) =>
-                              updateAdditionalCharge(charge.id, "type", value)
-                            }
-                          >
+                        <Label htmlFor={`mobile-charge-type-${charge.id}`}>Type</Label>
+                        <Select
+                          value={charge.type}
+                          onValueChange={(value: string) =>
+                            updateAdditionalCharge(charge.id, "type", value)
+                          }
+                        >
                             <SelectTrigger id={`mobile-charge-type-${charge.id}`}>
                               <SelectValue />
                             </SelectTrigger>
@@ -742,13 +742,13 @@ export default function App() {
                     />
                   </div>
                   <div className="w-32 space-y-2">
-                    <Label htmlFor={`charge-type-${charge.id}`}>Type</Label>
-                    <Select
-                      value={charge.type}
-                      onValueChange={(value) =>
-                        updateAdditionalCharge(charge.id, "type", value)
-                      }
-                    >
+                  <Label htmlFor={`charge-type-${charge.id}`}>Type</Label>
+                  <Select
+                    value={charge.type}
+                    onValueChange={(value: string) =>
+                      updateAdditionalCharge(charge.id, "type", value)
+                    }
+                  >
                       <SelectTrigger id={`charge-type-${charge.id}`}>
                         <SelectValue />
                       </SelectTrigger>

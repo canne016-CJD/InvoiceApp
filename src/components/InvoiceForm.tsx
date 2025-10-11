@@ -442,14 +442,14 @@ export function InvoiceForm({ data, onChange }: InvoiceFormProps) {
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
-                          type="button"
-                          variant={isCompanyInfoEditable ? "default" : "outline"}
-                          size="icon"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleEditToggle();
-                          }}
-                          disabled={isCompanyInfoEmpty}
+                        type="button"
+                        variant={isCompanyInfoEditable ? "default" : "outline"}
+                        size="icon"
+                        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                          e.stopPropagation();
+                          handleEditToggle();
+                        }}
+                        disabled={isCompanyInfoEmpty}
                           className="h-8 w-8 shrink-0"
                         >
                           {isCompanyInfoEditable ? (
