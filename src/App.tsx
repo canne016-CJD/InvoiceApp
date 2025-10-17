@@ -421,7 +421,7 @@ export default function App() {
             </div>
 
             {/* Preview Section */}
-            <div className={`lg:sticky lg:top-8 self-start ${showMobilePreview ? 'block' : 'hidden lg:block'}`}>
+            <div className={`invoice-preview-section lg:sticky lg:top-8 self-start ${showMobilePreview ? 'block' : 'hidden lg:block'}`}>
               <div className="mb-4 print:hidden">
                 <h2 className="text-slate-900">Preview</h2>
                 <p className="text-slate-600 text-sm">
@@ -813,14 +813,191 @@ export default function App() {
       {/* Print Styles */}
       <style>{`
         @media print {
-          body {
-            background: white;
+          * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
           }
+          
+          html, body {
+            background: white !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            color: black !important;
+          }
+          
+          /* Ensure all backgrounds are white */
+          *, *::before, *::after {
+            background-color: white !important;
+            background: white !important;
+          }
+          
+          /* Hide all print:hidden elements */
           .print\\:hidden {
             display: none !important;
           }
+          
+          /* Hide header and navigation */
+          .bg-white.border-b,
+          .fixed.bottom-0,
+          .sm\\:hidden.fixed.bottom-0 {
+            display: none !important;
+          }
+          
+          /* Hide form section when printing */
+          .grid.grid-cols-1.lg\\:grid-cols-2 > div:first-child {
+            display: none !important;
+          }
+          
+          /* Make the container full width for printing */
+          .container {
+            max-width: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+          }
+          
+          /* Show the invoice preview section */
+          .invoice-preview-section {
+            display: block !important;
+            position: static !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+          
+          /* Remove shadows and borders from the card */
+          .invoice-preview-section .bg-white,
+          .print-invoice-content {
+            box-shadow: none !important;
+            border: none !important;
+            background: white !important;
+            background-color: white !important;
+            display: block !important;
+            color: black !important;
+          }
+          
+          /* Ensure all text is black for print */
+          .print-invoice-content,
+          .print-invoice-content * {
+            color: black !important;
+            background: white !important;
+            background-color: white !important;
+          }
+          
+          /* Ensure all content inside is visible */
+          .invoice-preview-section .space-y-8,
+          .print-invoice-content .space-y-8 {
+            display: block !important;
+          }
+          
+          .invoice-preview-section .space-y-8 > *,
+          .print-invoice-content .space-y-8 > * {
+            display: block !important;
+            margin-bottom: 2rem !important;
+          }
+          
+          /* Force all invoice content to be visible */
+          .print-invoice-content * {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+          }
+          
+          /* Table styles */
+          .invoice-preview-section table,
+          .print-invoice-content table {
+            display: table !important;
+            width: 100% !important;
+            border-collapse: collapse !important;
+            background: white !important;
+            background-color: white !important;
+          }
+          
+          .invoice-preview-section thead,
+          .invoice-preview-section tbody,
+          .print-invoice-content thead,
+          .print-invoice-content tbody {
+            display: table-row-group !important;
+          }
+          
+          .invoice-preview-section tr,
+          .print-invoice-content tr {
+            display: table-row !important;
+          }
+          
+          .invoice-preview-section td,
+          .invoice-preview-section th,
+          .print-invoice-content td,
+          .print-invoice-content th {
+            display: table-cell !important;
+            padding: 8px 12px !important;
+            text-align: left !important;
+            background: white !important;
+            background-color: white !important;
+            color: black !important;
+          }
+          
+          .invoice-preview-section th,
+          .print-invoice-content th {
+            font-weight: 600 !important;
+            border-bottom: 1px solid #000000 !important;
+          }
+          
+          .invoice-preview-section td,
+          .print-invoice-content td {
+            border-bottom: 1px solid #cccccc !important;
+          }
+          
+          /* Flex layouts */
+          .invoice-preview-section .flex,
+          .print-invoice-content .flex {
+            display: flex !important;
+          }
+          
+          .invoice-preview-section .justify-between,
+          .print-invoice-content .justify-between {
+            justify-content: space-between !important;
+          }
+          
+          .invoice-preview-section .items-start,
+          .print-invoice-content .items-start {
+            align-items: flex-start !important;
+          }
+          
+          .invoice-preview-section .text-right,
+          .print-invoice-content .text-right {
+            text-align: right !important;
+          }
+          
+          /* Text elements */
+          .invoice-preview-section h1,
+          .print-invoice-content h1 {
+            font-size: 1.875rem !important;
+            font-weight: 700 !important;
+            margin-bottom: 0.5rem !important;
+          }
+          
+          .invoice-preview-section p,
+          .print-invoice-content p {
+            margin: 0.25rem 0 !important;
+          }
+          
+          .invoice-preview-section .text-sm,
+          .print-invoice-content .text-sm {
+            font-size: 0.875rem !important;
+          }
+          
+          /* Separator */
+          .invoice-preview-section hr,
+          .print-invoice-content hr {
+            border: none !important;
+            border-top: 1px solid #000000 !important;
+            margin: 2rem 0 !important;
+            background: white !important;
+          }
+          
           @page {
-            margin: 1cm;
+            margin: 1.5cm;
+            size: auto;
           }
         }
       `}</style>

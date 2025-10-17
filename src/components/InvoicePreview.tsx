@@ -44,7 +44,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
   };
 
   return (
-    <Card className="p-8 bg-white">
+    <Card className="p-8 bg-white print-invoice-content">
       <div className="space-y-8">
         {/* Header */}
         <div className="flex justify-between items-start">
