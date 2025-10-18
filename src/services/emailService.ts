@@ -26,7 +26,6 @@ export class EmailService {
         console.log('EmailJS not configured, using fallback');
         const mailtoLink = this.generateMailtoLink(emailData);
         window.open(mailtoLink, '_blank');
-        alert('Email client opened with invoice details. Please send the email manually.\n\nTo enable automatic sending, please set up EmailJS following the setup guide.');
         return true;
       }
 
@@ -68,9 +67,6 @@ export class EmailService {
       // Fallback: Use mailto link
       const mailtoLink = this.generateMailtoLink(emailData);
       window.open(mailtoLink, '_blank');
-      
-      // Show success message even with fallback
-      alert('Email client opened with invoice details. Please send the email manually.\n\nTo enable automatic sending, please set up EmailJS following the setup guide.');
       return true;
     }
   }
