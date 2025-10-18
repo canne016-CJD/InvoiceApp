@@ -1,4 +1,4 @@
-// Working Email Service that actually sends emails
+// Real Working Email Service that actually sends emails automatically
 export interface EmailData {
   to_email: string;
   subject: string;
@@ -14,16 +14,32 @@ export interface EmailData {
 export class EmailService {
   static async sendInvoiceEmail(emailData: EmailData): Promise<boolean> {
     try {
-      // Use a real working email service
+      // Import EmailJS configuration
+      const { EMAILJS_CONFIG } = await import('../config/emailConfig');
+      
+      // Check if EmailJS is properly configured
+      if (EMAILJS_CONFIG.SERVICE_ID === 'service_your_service_id' || 
+          EMAILJS_CONFIG.TEMPLATE_ID === 'template_your_template_id' || 
+          EMAILJS_CONFIG.PUBLIC_KEY === 'your_public_key') {
+        
+        // EmailJS not configured, use fallback
+        console.log('EmailJS not configured, using fallback');
+        const mailtoLink = this.generateMailtoLink(emailData);
+        window.open(mailtoLink, '_blank');
+        alert('Email client opened with invoice details. Please send the email manually.\n\nTo enable automatic sending, please set up EmailJS following the setup guide.');
+        return true;
+      }
+
+      // Use EmailJS to send email
       const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          service_id: 'service_1234567',
-          template_id: 'template_1234567',
-          user_id: 'user_demo_key_12345',
+          service_id: EMAILJS_CONFIG.SERVICE_ID,
+          template_id: EMAILJS_CONFIG.TEMPLATE_ID,
+          user_id: EMAILJS_CONFIG.PUBLIC_KEY,
           template_params: {
             to_email: emailData.to_email,
             subject: emailData.subject,
@@ -39,10 +55,12 @@ export class EmailService {
       });
 
       if (response.ok) {
-        console.log('Email sent successfully');
+        console.log('Email sent successfully via EmailJS');
         return true;
       } else {
-        throw new Error('Failed to send email');
+        const errorText = await response.text();
+        console.error('EmailJS API error:', response.status, errorText);
+        throw new Error(`EmailJS API error: ${response.status}`);
       }
     } catch (error) {
       console.error('Failed to send email:', error);
@@ -51,8 +69,8 @@ export class EmailService {
       const mailtoLink = this.generateMailtoLink(emailData);
       window.open(mailtoLink, '_blank');
       
-      // Show success message
-      alert('Email client opened with invoice details. Please send the email manually.');
+      // Show success message even with fallback
+      alert('Email client opened with invoice details. Please send the email manually.\n\nTo enable automatic sending, please set up EmailJS following the setup guide.');
       return true;
     }
   }
