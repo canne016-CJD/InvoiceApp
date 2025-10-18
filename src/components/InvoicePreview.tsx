@@ -1,12 +1,15 @@
 import { InvoiceData } from "./InvoiceForm";
 import { Separator } from "./ui/separator";
 import { Card } from "./ui/card";
+import { Button } from "./ui/button";
+import { Mail } from "lucide-react";
 
 interface InvoicePreviewProps {
   data: InvoiceData;
+  onSendEmail?: () => void;
 }
 
-export function InvoicePreview({ data }: InvoicePreviewProps) {
+export function InvoicePreview({ data, onSendEmail }: InvoicePreviewProps) {
   const subtotal = data.lineItems.reduce(
     (sum, item) => sum + item.quantity * item.rate,
     0
@@ -45,6 +48,20 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
   return (
     <Card className="p-8 bg-white print-invoice-content">
+      {/* Email Button - Desktop Only */}
+      {onSendEmail && (
+        <div className="mb-6 print:hidden">
+          <Button 
+            onClick={onSendEmail}
+            className="w-full sm:w-auto"
+            variant="outline"
+          >
+            <Mail className="h-4 w-4 mr-2" />
+            Send via Email
+          </Button>
+        </div>
+      )}
+      
       <div className="space-y-8">
         {/* Header */}
         <div className="flex justify-between items-start">

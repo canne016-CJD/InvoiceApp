@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { InvoiceForm, InvoiceData } from "./components/InvoiceForm";
 import { InvoicePreview } from "./components/InvoicePreview";
+import { EmailPreviewDialog } from "./components/EmailPreviewDialog";
 import { Button } from "./components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "./components/ui/dialog";
 import { Input } from "./components/ui/input";
@@ -47,9 +48,7 @@ export default function App() {
     notes: "",
   });
 
-  const [emailDialogOpen, setEmailDialogOpen] = useState(false);
-  const [emailAddress, setEmailAddress] = useState("");
-  const [emailSubject, setEmailSubject] = useState("");
+  const [emailPreviewDialogOpen, setEmailPreviewDialogOpen] = useState(false);
 
   // Settings state
   const [settingsDialogOpen, setSettingsDialogOpen] = useState(false);
@@ -86,31 +85,11 @@ export default function App() {
   };
 
   const handleSendEmail = () => {
-    // Pre-fill with client email if available
-    if (invoiceData.clientEmail && !emailAddress) {
-      setEmailAddress(invoiceData.clientEmail);
-    }
-    // Pre-fill subject if not already set
-    if (!emailSubject) {
-      setEmailSubject(`Invoice ${invoiceData.invoiceNumber}`);
-    }
-    setEmailDialogOpen(true);
+    setEmailPreviewDialogOpen(true);
   };
 
-  const handleEmailSubmit = () => {
-    // Mock email sending functionality
-    if (!emailAddress) {
-      toast.error("Please enter an email address");
-      return;
-    }
-    if (!emailSubject) {
-      toast.error("Please enter an email subject");
-      return;
-    }
-    
-    // Simulate sending email
-    toast.success(`Invoice sent to ${emailAddress}`);
-    setEmailDialogOpen(false);
+  const handleEmailSent = () => {
+    toast.success("Invoice sent successfully!");
   };
 
   const handleSaveCompanyInfo = () => {
@@ -434,6 +413,7 @@ export default function App() {
                   additionalCharges,
                   dateFormat,
                 }} 
+                onSendEmail={handleSendEmail}
               />
             </div>
           </div>
@@ -557,48 +537,17 @@ export default function App() {
         </DialogContent>
       </Dialog>
 
-      {/* Email Dialog */}
-      <Dialog open={emailDialogOpen} onOpenChange={setEmailDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Send Invoice to Email</DialogTitle>
-            <DialogDescription>
-              Enter the recipient's email address and subject line.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="email-address">Email address:</Label>
-              <Input
-                id="email-address"
-                type="email"
-                placeholder="recipient@example.com"
-                value={emailAddress}
-                onChange={(e) => setEmailAddress(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email-subject">Email Subject:</Label>
-              <Input
-                id="email-subject"
-                type="text"
-                placeholder="Invoice INV-001"
-                value={emailSubject}
-                onChange={(e) => setEmailSubject(e.target.value)}
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setEmailDialogOpen(false)}>
-              Cancel
-            </Button>
-            <Button onClick={handleEmailSubmit}>
-              <Mail className="h-4 w-4 mr-2" />
-              Send Email
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      {/* Email Preview Dialog */}
+      <EmailPreviewDialog
+        open={emailPreviewDialogOpen}
+        onOpenChange={setEmailPreviewDialogOpen}
+        invoiceData={{
+          ...invoiceData,
+          additionalCharges,
+          dateFormat,
+        }}
+        onEmailSent={handleEmailSent}
+      />
 
       {/* Company Information Dialog */}
       <Dialog open={companyInfoDialogOpen} onOpenChange={setCompanyInfoDialogOpen}>
