@@ -7,13 +7,13 @@
 
 export const EMAILJS_CONFIG = {
   // Replace with your EmailJS service ID
-  SERVICE_ID: 'service_your_service_id',
+  SERVICE_ID: 'service_yeqfuh5',
   
   // Replace with your EmailJS template ID
-  TEMPLATE_ID: 'template_your_template_id',
+  TEMPLATE_ID: 'service_yeqfuh5',
   
   // Replace with your EmailJS public key
-  PUBLIC_KEY: 'your_public_key',
+  PUBLIC_KEY: 'IP0msXRuHCmVLwhXd',
   
   // Email template variables that should be available in your EmailJS template:
   // - {{to_email}} - Recipient email address
